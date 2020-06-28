@@ -1,0 +1,30 @@
+{% extends "files/bootstrapBloilerTemplate.html" %} {% block title %}College Tasks {% endblock %} {% load static %} {% block content %}
+
+<nav class="navbar navbar-dark bg-dark shadow fixed-top">
+  <a class="navbar-brand" href="#" style="margin: auto">COLLEGE TASKS</a>
+</nav>
+
+<header class="masthead">
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-12 text-center">
+        <h1 class="font-weight-light">One stop for all sorts of communications</h1>
+        <p class="lead1">Who are you?</p>
+        <a href="/teacherRegistration"><button class="btn btn-dark">Teacher</button></a>
+        <a href="/studentRegistration"><button class="btn btn-dark">Student</button></a>
+      </div>
+    </div>
+  </div>
+</header>
+<style type="text/css">
+	.masthead {
+	  height: 100vh;
+	  min-height: 500px;
+	  background-image: url('https://source.unsplash.com/BtbjCFUvBXs/1920x1080');
+	  background-size: cover;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	}
+</style>
+
+{% endblock content%}

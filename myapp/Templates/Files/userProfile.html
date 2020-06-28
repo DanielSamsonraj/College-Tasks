@@ -1,0 +1,21 @@
+{% extends "files/header.html" %} {% block title %}College Tasks {% endblock %} {% load static %} 
+{% block content %}
+
+<div class="container shadow" style="margin : 75px auto; padding: 50px;max-width: 600px">
+	<h3>
+		{% if name %}
+			Hey this is <b>{{ name }}</b>,
+		{% endif %}
+		{% if bio %}
+			{{ bio }},
+		{% endif %}
+		{% if subject %}
+			I teach <b>{{ subject }}</b> subject.
+		{% endif %}
+		{% if email %}
+			Reach me out at <a href="#">{{ email }}</a>
+		{% endif %}
+	</h3>
+</div>
+
+{% endblock content%}

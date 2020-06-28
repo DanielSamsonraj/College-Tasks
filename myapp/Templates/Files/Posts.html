@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	{% for data in PostData%}
+	<p>Subject  {{ data.subject}}</p>
+	<p>Topic {{ data.topic }}</p>
+	<p>Descrption {{ data.description }}</p>
+	<p>Author {{ data.author }}
+	{% endfor %}
+</body>
+</html>

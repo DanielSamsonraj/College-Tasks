@@ -193,3 +193,29 @@ def setPassword(request):
 				messages.info(request, "There is no account with this username")
 				return redirect('setPassword')
 	return render(request, 'files/setPassword.html')
+
+@login_required(login_url='/login/')
+def editProfile(request):
+	if request.user.is_superuser:
+		user = Teacher.objects.get(user = request.user)
+		if request.method == 'POST':
+			user.name = request.POST['name']
+			user.email = request.POST['email']
+			user.bio = request.POST['bio']
+			user.subject = request.POST['subject']
+			user.save()
+			return redirect('viewProfile')
+		print(user.name, user.email, user.subject, user.bio)
+		return render(request, 'files/editProfile.html', {'user' : user})
+	else:
+		user = Student.objects.get(user = request.user)
+		if request.method == 'POST':
+			user.name = request.POST['name']
+			user.email = request.POST['email']
+			user.branch = request.POST['branch']
+			user.bio = request.POST['bio']
+			user.section = request.POST['section']
+			user.year = request.POST['year']
+			user.save()
+			return redirect('viewProfile')
+		return render(request, 'files/editProfile.html', {'user' : user})

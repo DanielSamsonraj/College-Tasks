@@ -11,8 +11,9 @@ urlpatterns = [
     path('studentRegistration', views.studentRegistration, name = "studentRegistration"),
     path('login', views.login, name = "login"),
     path('logout', views.logout, name = "logout"),
-    path('userProfile', views.viewProfile, name = "userProfile")
-
+    path('userProfile', views.viewProfile, name = "userProfile"),
+    path('forgotPassword', views.forgotPassword, name = "forgotPassword"),
+    path('enterOTP', views.enterOTP, name = "enterOTP")
 ]
 
 if settings.DEBUG:

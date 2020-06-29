@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.mail import send_mail
+import random
+from django.conf import settings
 
 def index(request):
 	return render(request, 'files/index.html')
@@ -129,3 +132,33 @@ def viewProfile(request):
 	for userDetails in userObj.values():
 		details = userDetails
 	return render(request, 'files/userProfile.html', details)
+
+def OTP():
+	return "".join([str(random.randrange(0,9)) for i in range(6)])
+
+def sendEmail(email):
+	otp = OTP()
+	subject = "COLLEGE TASKS resetting password"
+	from_email = settings.EMAIL_HOST_USER
+	to_email = [email]
+	signup_message = "Hey user," + '\n' + otp + " \n This is your OTP for your request" + '\n' + "If its not working please repeat this process again."
+	send_mail(subject=subject, from_email=from_email, recipient_list=to_email, message=signup_message, fail_silently = False)
+
+def forgotPassword(request):
+	if request.method == 'POST':
+		email = request.POST['email']
+		user = Teacher.objects.all().filter(email = email)
+		if user:
+			sendEmail(email)
+			return redirect('enterOTP')
+		user = Student.objects.all().filter(email = email)
+		if user:
+			sendEmail(email)
+			return redirect('enterOTP')
+		else:
+			messages.info(request, "There is no account with this email")
+			return redirect('forgotPassword')
+	return render(request, 'files/forgotPassword.html')
+
+def enterOTP(request):
+	return HttpResponse('Its working')

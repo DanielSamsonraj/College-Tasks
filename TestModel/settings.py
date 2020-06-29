@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -127,3 +128,12 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'danielsam458@gmail.com'
+EMAIL_HOST_PASSWORD = 'pjiejpugvuathhgr'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'DropsOfLife Team <noreply@DropsOfLife.com>'

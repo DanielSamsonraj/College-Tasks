@@ -56,7 +56,7 @@ def login(request):
 		if response:
 			auth.login(request, response)
 			return redirect('viewPosts')
-		messages.info(request, "Invalid credentials please try again")
+		messages.info(request,"Invalid credentials please try again")
 		return redirect('login')
 	return render(request, 'files/Login.html')
 
@@ -74,7 +74,7 @@ def post(request):
 			postObj.save()
 			return HttpResponse("Posted Successfully")
 		return render(request, 'files/uploads.html')
-	return HttpResponse("This page is temporarily blocked")
+	return render(request, 'files/uploads.html')
 
 def viewPosts(request):
 	postObj = Post.objects.all()
@@ -135,8 +135,9 @@ def viewProfile(request):
 
 def OTP():
 	return "".join([str(random.randrange(0,9)) for i in range(6)])
-
+otp = 123456
 def sendEmail(email):
+	global otp
 	otp = OTP()
 	subject = "COLLEGE TASKS resetting password"
 	from_email = settings.EMAIL_HOST_USER
@@ -144,16 +145,21 @@ def sendEmail(email):
 	signup_message = "Hey user," + '\n' + otp + " \n This is your OTP for your request" + '\n' + "If its not working please repeat this process again."
 	send_mail(subject=subject, from_email=from_email, recipient_list=to_email, message=signup_message, fail_silently = False)
 
+emailSendTo = "danielsam458@gmail.com"
+
 def forgotPassword(request):
+	global emailSendTo
 	if request.method == 'POST':
 		email = request.POST['email']
 		user = Teacher.objects.all().filter(email = email)
 		if user:
 			sendEmail(email)
+			emailSendTo = email
 			return redirect('enterOTP')
 		user = Student.objects.all().filter(email = email)
 		if user:
 			sendEmail(email)
+			emailSendTo = email
 			return redirect('enterOTP')
 		else:
 			messages.info(request, "There is no account with this email")
@@ -161,4 +167,29 @@ def forgotPassword(request):
 	return render(request, 'files/forgotPassword.html')
 
 def enterOTP(request):
-	return HttpResponse('Its working')
+	global otp, emailSendTo
+	if request.method == 'POST':
+		OTP = request.POST['otp']
+		if OTP == otp:
+			return redirect('setPassword')
+		else:
+			messages.info(request, 'Invalid OTP')
+			return redirect('enterOTP')
+	return render(request, 'files/enterOTP.html', {'email' : emailSendTo})
+
+def setPassword(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		confirm_password = request.POST['confirm-password']
+		if confirm_password == password:
+			user = User.objects.get(username = username)
+			if user:
+				user.set_password(password)
+				user.save()
+				messages.success(request, "You have changed the password succesfully please login with your new credentials")
+				return redirect('login')
+			else:
+				messages.info(request, "There is no account with this username")
+				return redirect('setPassword')
+	return render(request, 'files/setPassword.html')

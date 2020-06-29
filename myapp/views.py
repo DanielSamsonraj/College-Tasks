@@ -77,6 +77,7 @@ def post(request):
 	return render(request, 'files/uploads.html')
 
 def viewPosts(request):
+	# auth.logout(request)
 	postObj = Post.objects.all()
 	return render(request, 'files/Posts.html', {'PostData' : postObj})
 
@@ -126,9 +127,9 @@ def logout(request):
 
 def viewProfile(request):
 	if request.user.is_superuser:
-		userObj = Teacher.objects.all().filter(user = request.user)
+		userObj = Teacher.objects.filter(user = request.user)
 	else:
-		userObj = Student.objects.all().filter(user = request.user)
+		userObj = Student.objects.filter(user = request.user)
 	for userDetails in userObj.values():
 		details = userDetails
 	return render(request, 'files/userProfile.html', details)
@@ -194,6 +195,7 @@ def setPassword(request):
 				return redirect('setPassword')
 	return render(request, 'files/setPassword.html')
 
+
 @login_required(login_url='/login/')
 def editProfile(request):
 	if request.user.is_superuser:
@@ -204,9 +206,8 @@ def editProfile(request):
 			user.bio = request.POST['bio']
 			user.subject = request.POST['subject']
 			user.save()
-			return redirect('viewProfile')
-		print(user.name, user.email, user.subject, user.bio)
-		return render(request, 'files/editProfile.html', {'user' : user})
+			return redirect('userProfile')
+		return render(request, 'files/editProfile.html', {'user' : user })
 	else:
 		user = Student.objects.get(user = request.user)
 		if request.method == 'POST':
@@ -217,5 +218,28 @@ def editProfile(request):
 			user.section = request.POST['section']
 			user.year = request.POST['year']
 			user.save()
-			return redirect('viewProfile')
-		return render(request, 'files/editProfile.html', {'user' : user})
+			return redirect('userProfile')
+		return render(request, 'files/editProfile.html', {'user' : user })
+
+def accountDelete(request):
+	auth.logout(request)
+	user = User.objects.get(username = str(request.user))
+	print(type(user))
+	user.delete()
+	return HttpResponse("Account deleted succesfully")
+
+def changePassword(request):
+	if request.method == 'POST':
+		password = request.POST['password']
+		confirm_password = request.POST['confirm-password']
+		if password == confirm_password:
+			user = User.objects.get(username = str(request.user))
+			user.set_password(password)
+			user.save()
+			auth.logout(request)
+			messages.info(request, 'Password changed succesfully')
+			return redirect('login')
+		else:
+			messages.info(request, 'Password and Confirm Password should match')
+			return redirect('changePassword')
+	return render(request, 'files/changePassword.html')

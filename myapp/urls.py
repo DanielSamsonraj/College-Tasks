@@ -15,7 +15,9 @@ urlpatterns = [
     path('forgotPassword', views.forgotPassword, name = "forgotPassword"),
     path('enterOTP', views.enterOTP, name = "enterOTP"),
     path('setPassword', views.setPassword, name = "setPassword"),
-    path('editProfile', views.editProfile, name = "editProfile")
+    path('editProfile', views.editProfile, name = "editProfile"),
+    path('accountDelete', views.accountDelete, name = "accountDelete"),
+    path('changePassword', views.changePassword, name = "changePassword")
 ]
 
 if settings.DEBUG:

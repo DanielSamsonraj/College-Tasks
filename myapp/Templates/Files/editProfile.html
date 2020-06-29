@@ -35,21 +35,21 @@
 	<form method='POST'>
 		{% csrf_token %}
 		<div class="form-group">
-			<input type="email" name="email" value = {{ user.email }} class="form-control">
+			<input type="email" name="email" value = "{{ user.email }}" class="form-control">
 		</div>		
 		<div class="form-group">
-			<input type="text" name="name" value = {{ user.name }} class="form-control">
+			<input type="text" name="name" value = "{{ user.name }}" class="form-control">
 		</div>
 		<div class="form-group">
-			<input type="text" name="bio" value = {{ user.bio }} class="form-control">
+			<input type="text" name="bio" value = "{{ user.bio }}" class="form-control">	
 		</div>
 		{% if request.user.is_superuser %}
 			<div class="form-group">
-				<input type="text" name="subject" value = {{ user.subject }} class="form-control">
+				<input type="text" name="subject" value = "{{ user.subject }}" class="form-control">
 			</div>
 		{% else %}
 			<div class="form-group">
-				<select class="form-control" name="branch" value = {{ user.branch }}>
+				<select class="form-control" name="branch">
 				  <option value="A">CSE</option>
 				  <option value="B">MECH</option>
 				  <option value="C">EEE</option>
@@ -60,7 +60,7 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<select class="form-control" name="year" value = {{ user.year }}>
+				<select class="form-control" name="year">
 				  <option value="1">I</option>
 				  <option value="2">II</option>
 				  <option value="3">III</option>
@@ -68,7 +68,7 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<select class="form-control" name="section" {{ user.section }>
+				<select class="form-control" name="section">
 				  <option value="A">A</option>
 				  <option value="B">B</option>
 				  <option value="C">C</option>

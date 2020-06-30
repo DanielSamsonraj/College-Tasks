@@ -125,7 +125,8 @@ def logout(request):
 	return redirect('index')
 
 
-def viewProfile(request):
+def viewProfile(request, user):
+	print(user)
 	if request.user.is_superuser:
 		userObj = Teacher.objects.filter(user = request.user)
 	else:

@@ -1,5 +1,83 @@
 {% extends "files/header.html" %} {% block title %}College Tasks {% endblock %} {% load static %} 
 {% block content %}
-
+<style type="text/css">
+	body {
+		background : -webkit-linear-gradient(left, pink, lightblue);
+	}
+	.box {
+		background-color : white;
+		margin : 75px auto;
+		padding: 30px;
+		/*max-width: 800px;*/
+	}
+</style>
+<div class="container">
+	<div class="container shadow box">
+		<div class="row">
+			<div class="col" style="text-align: center;">
+				<h2>POST SOMETHING</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<form method = 'POST'>
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="subject">Enter the subject name<sup style="color: red">*</sup></label>
+						<input type="text" name="subject" required class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="topic">Enter the topic name</label>
+						<input type="text" name="topic" id = "topic" class="form-control">
+					</div>
+					<div class="form-group" required>
+						<label for="desc">Say anything about the post <sup style="color: red">*</sup></label>
+						<TEXTAREA class = "form-control" name="description" id = "desc"></TEXTAREA>
+					</div>
+					<div class="form-group">
+						<label for="links">Any additional links</label>
+						<input type="text" name="links" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="branches">Which branch do you want to share this post</label>
+						<select class="form-control" name="branches">
+							<option value="GLOBAL">All Branches</option>
+							<option value="CSE">CSE</option>
+							<option value="ECE">ECE</option>
+							<option value="EEE">EEE</option>
+							<option value="MECH">MECH</option>
+							<option value="CIVIL">CIVIL</option>
+							<option value="IT">IT</option>
+			  				<option value="ECM">ECM</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="years">Which years do you want to share this post</label>
+						<select class="form-control" name="years">
+							<option value="GLOBAL">All Years</option>
+							<option value="1">I</option>
+							<option value="2">II</option>
+							<option value="3">III</option>
+							<option value="4">IV</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="sections">Which sections do you want to share this post</label>
+						<select class="form-control" name="sections">
+							<option value="GLOBAL">All Sections</option>
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						</select>
+					</div>
+					<div class="form-group" style="text-align: center;">
+						<input type="submit" value = "POST" class="form-control btn btn-primary" style="max-width: 200px;">
+					</div>
+				</form>	
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock content%}
 

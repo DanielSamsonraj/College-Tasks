@@ -68,17 +68,21 @@ def post(request):
 			subject = request.POST['subject']
 			topic = request.POST['topic']
 			description = request.POST['description']
-			link = request.POST['link']
+			link = request.POST['links']
 			author = request.user
-			postObj = Post(subject = subject, topic = topic, description = description, author = author, links = link)
+			branches = request.POST['branches']
+			years = request.POST['years']
+			section = request.POST['sections']
+			postObj = Post(subject = subject, topic = topic, description = description, author = author, links = link, year = years, sections = section)
 			postObj.save()
-			return HttpResponse("Posted Successfully")
+			return redirect('viewPosts')
 		return render(request, 'files/uploads.html')
-	return render(request, 'files/uploads.html')
+	return redirect('viewPosts')
 
+@login_required(login_url='/login/')
 def viewPosts(request):
-	# auth.logout(request)
 	postObj = Post.objects.all()
+	print(postObj.values())
 	return render(request, 'files/Posts.html', {'PostData' : postObj})
 
 	

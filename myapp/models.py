@@ -18,11 +18,13 @@ class Teacher(models.Model):
 class Post(models.Model):
 	subject = models.CharField(max_length = 25)
 	topic = models.CharField(max_length = 25)
-	description = models.TextField(max_length = 25)
+	description = models.TextField(max_length = 250)
 	author = models.CharField(max_length = 25)
 	links = models.CharField(max_length = 300, blank = True)
-	branch = models.CharField(max_length = 20, choices = branches, default = 'GlOBAL')
-	year = models.CharField(max_length = 20, choices = yearChoices, default = 'All Years')
+	branch = models.CharField(max_length = 20, choices = branches, default = 'GlOBAL', blank = True)
+	year = models.CharField(max_length = 20, choices = yearChoices, default = 'All Years', blank = True)
+	sections = models.CharField(max_length = 20, choices = sectionChoices, default = 'All Years', blank = True)
+
 	def __str__(self):
 		return self.subject
 

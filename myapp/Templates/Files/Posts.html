@@ -55,6 +55,13 @@
                 margin-left: -15rem;
             }
         }
+        .box {
+            border: 1px solid grey;
+            max-width: 800px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 30px;
+        }
     </style>
 
 </head>
@@ -64,7 +71,7 @@
     <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">danielsam458</div>
+            <div class="sidebar-heading">{{ request.user }}</div>
             <div class="list-group list-group-flush">
                 <a href="#" class="list-group-item list-group-item-action bg-light">All Years</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">III Year</a>
@@ -74,7 +81,7 @@
         <div id="page-content-wrapper">
             <nav class="navbar navbar-dark bg-dark shadow">
                 <button class="navbar-toggler" id="menu-toggle" aria-expanded="false"><span class="navbar-toggler-icon"></span></button>
-                <div class="container">
+                <!-- <div class="container"> -->
                     <a class="navbar-brand" href="#">COLLEGE TASKS</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -99,8 +106,44 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                <!-- </sdiv> -->
             </nav>
+            <div class="container">
+                {% for data in PostData %}
+                    <div class="container box shadow-sm">
+                        <div class="row">
+                            <div class="col">
+                                <h2>{{ data.subject }}</h2>
+                            </div>
+                            <div class="col ml-auto">
+                                <h5 style="text-align: end;"><a href="#"> {{ data.author }}</a></h5>
+                            </div>
+                        </div>
+                        {% if topic %}
+                            <div class="row">
+                                <div class="col-sm">
+                                    <p><big>Topic</big> : &nbsp &nbsp{{ data.topic }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if data.description %}
+                            <div class="row">
+                                <div class="col">
+                                    <p>{{ data.description }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if data.links %}
+                            <div class="row">
+                                <div class="col">
+                                    <p>Additonl links  &nbsp &nbsp<a href="{{ links }}">{{ data.links }}</a></p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

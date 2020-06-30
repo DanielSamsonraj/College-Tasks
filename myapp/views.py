@@ -30,6 +30,10 @@ def teacherRegistration(request):
 				messages.info(request, 'username already exists')
 				return redirect('studentRegistration')
 			except:
+				checkEmailDuplication = Teacher.objects.filter(email = email)
+				if checkEmailDuplication:
+					messages.info(request, "There is already an account with this email id")
+					return redirect('teacherRegistration')
 				user = User.objects.create_superuser(username = username, password = password)
 				teacher = Teacher(user = user, email = email, name = name, bio = bio, subject = subject)
 				teacher.save()
@@ -139,6 +143,10 @@ def studentRegistration(request):
 				messages.info(request, 'username already exists')
 				return redirect('studentRegistration')
 			except:
+				checkEmailDuplication = Student.objects.filter(email = email)
+				if checkEmailDuplication:
+					messages.info(request, "There is already an account with this email id")
+					return redirect('studentRegistration')
 				user = User.objects.create_user(username = username, password = password)
 				studentObj = Student(user = user, email = email, name = name, bio = bio, branch = branch, year = year, section = section)
 				studentObj.save()
@@ -173,7 +181,9 @@ def viewProfile(request):
 
 def OTP():
 	return "".join([str(random.randrange(0,9)) for i in range(6)])
+
 otp = 123456
+
 def sendEmail(email):
 	global otp
 	otp = OTP()
@@ -258,6 +268,7 @@ def editProfile(request):
 			return redirect('userProfile')
 		return render(request, 'files/editProfile.html', {'user' : user })
 
+@login_required(login_url='/login/')
 def accountDelete(request):
 	auth.logout(request)
 	user = User.objects.get(username = str(request.user))
@@ -265,6 +276,7 @@ def accountDelete(request):
 	user.delete()
 	return HttpResponse("Account deleted succesfully")
 
+@login_required(login_url='/login/')
 def changePassword(request):
 	if request.method == 'POST':
 		password = request.POST['password']

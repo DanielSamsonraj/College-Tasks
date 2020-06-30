@@ -17,7 +17,12 @@ urlpatterns = [
     path('setPassword', views.setPassword, name = "setPassword"),
     path('editProfile', views.editProfile, name = "editProfile"),
     path('accountDelete', views.accountDelete, name = "accountDelete"),
-    path('changePassword', views.changePassword, name = "changePassword")
+    path('changePassword', views.changePassword, name = "changePassword"),
+    path('branch', views.groupByBranch, name = "branch"),
+    path('year', views.groupByYear, name = "year"),
+    path('section', views.groupBySection, name = "section"),
+    path('allPosts', views.groupByAllPosts, name = "allPosts"),
+    path('myPosts', views.groupByMyPosts, name = "myPosts"),
 ]
 
 if settings.DEBUG:

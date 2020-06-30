@@ -81,11 +81,44 @@ def post(request):
 
 @login_required(login_url='/login/')
 def viewPosts(request):
-	postObj = Post.objects.all()
-	print(postObj.values())
+	postObj = Post.objects.all().order_by('-date_posted', 'time_posted')
+	if request.user.is_superuser:
+		return render(request, 'files/Posts.html', {'PostData' : postObj})
+	else:
+		userData = Student.objects.all().filter(user = request.user)
+		return render(request, 'files/Posts.html', {'PostData' : postObj,'userData' : userData})
+
+@login_required(login_url='/login')
+def groupByBranch(request):
+	user = Student.objects.get(user = request.user)
+	postObj = Post.objects.all().filter(branch = user.branch).order_by('-date_posted', 'time_posted')
+	userData = Student.objects.all().filter(user = request.user)
+	return render(request, 'files/Posts.html', {'PostData' : postObj,'userData' : userData})
+
+@login_required(login_url='/login')
+def groupByYear(request):
+	user = Student.objects.get(user = request.user)
+	postObj = Post.objects.all().filter(branch = user.year).order_by('-date_posted', 'time_posted')
+	userData = Student.objects.all().filter(user = request.user)
+	return render(request, 'files/Posts.html', {'PostData' : postObj,'userData' : userData})
+	
+
+@login_required(login_url='/login')
+def groupBySection(request):
+	user = Student.objects.get(user = request.user)
+	postObj = Post.objects.all().filter(branch = user.section).order_by('-date_posted', 'time_posted')
+	userData = Student.objects.all().filter(user = request.user)
+	return render(request, 'files/Posts.html', {'PostData' : postObj,'userData' : userData})
+
+@login_required(login_url='/login')
+def groupByAllPosts(request):
+	postObj = Post.objects.all().order_by('-date_posted', 'time_posted')
 	return render(request, 'files/Posts.html', {'PostData' : postObj})
 
-	
+@login_required(login_url='/login')
+def groupByMyPosts(request):
+	postObj = Post.objects.all().filter(author = request.user).order_by('-date_posted', 'time_posted')
+	return render(request, 'files/Posts.html', {'PostData' : postObj})
 
 def studentRegistration(request):
 	if request.user.is_authenticated:
@@ -129,8 +162,7 @@ def logout(request):
 	return redirect('index')
 
 
-def viewProfile(request, user):
-	print(user)
+def viewProfile(request):
 	if request.user.is_superuser:
 		userObj = Teacher.objects.filter(user = request.user)
 	else:

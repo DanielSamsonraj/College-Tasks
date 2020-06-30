@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-yearChoices = (('All Years', 'All Years'),('1','1'),('2','2'),('3','3'),('4','4'))
+yearChoices = (('All Years', 'All Years'),('I','I'),('II','II'),('III','III'),('IV','IV'))
 sectionChoices =  (('A','A'),('B','B'),('C','C'),('D','D'))
 branches = (('GlOBAL', 'GLOBAL'),('CSE', 'CSE'), ('MECH', 'MECH'), ('EEE', 'EEE'), ('ECE','ECE'), ('IT', 'IT'), ('CIVIL', 'CIVIL'), ('ECM', 'ECM'))
 
@@ -24,6 +24,8 @@ class Post(models.Model):
 	branch = models.CharField(max_length = 20, choices = branches, default = 'GlOBAL', blank = True)
 	year = models.CharField(max_length = 20, choices = yearChoices, default = 'All Years', blank = True)
 	sections = models.CharField(max_length = 20, choices = sectionChoices, default = 'All Years', blank = True)
+	date_posted = models.DateTimeField(auto_now=True)
+	time_posted = models.TimeField(auto_now=True)
 
 	def __str__(self):
 		return self.subject
@@ -34,7 +36,7 @@ class Student(models.Model):
 	name = models.CharField(max_length = 25)
 	bio = models.CharField(max_length = 200)
 	branch = models.CharField(max_length = 20, choices = branches, default = 'CSE')
-	year = models.CharField(max_length = 20, choices = yearChoices, default = '1')
+	year = models.CharField(max_length = 20, choices = yearChoices, default = 'I')
 	section = models.CharField(max_length = 20, choices = sectionChoices, default = 'A')
 
 

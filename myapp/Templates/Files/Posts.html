@@ -13,6 +13,7 @@
 
     <!-- Custom styles for this template -->
     <style type="text/css">
+
         #wrapper {
             overflow-x: hidden;
         }
@@ -56,11 +57,12 @@
             }
         }
         .box {
-            border: 1px solid grey;
+            /*border: 1px opa grey;*/
             max-width: 800px;
             margin-top: 50px;
             margin-bottom: 50px;
             padding: 30px;
+            background-color: white;
         }
         .button {
             max-width: 100px;
@@ -127,13 +129,13 @@
             </nav>
             <div class="container">
                 {% for data in PostData %}
-                    <div class="container box shadow-sm">
+                    <div class="container box shadow-lg">
                         <div class="row">
                             <div class="col">
                                 <h2>{{ data.subject }}</h2>
                             </div>
                             <div class="col ml-auto">
-                                <h5 style="text-align: end;"><a href="#"> {{ data.author }}</a></h5>
+                                <h5 style="text-align: end;margin-top: 8px;"><a href="#"> {{ data.author }}</a></h5>
                             </div>
                         </div>
                         {% if topic %}
@@ -153,10 +155,15 @@
                         {% if data.links %}
                             <div class="row">
                                 <div class="col">
-                                    <p>Additonl resources &nbsp &nbsp<a href="{{ links }}">Link</a></p>
+                                    <p>Additonl resources &nbsp &nbsp<a href="{{ data.links }}">Link</a></p>
                                 </div>
                             </div>
                         {% endif %}
+                        <div class="row">
+                            <div class="col ml-auto" style="text-align: end">
+                                <p>{{ data.date_posted }}</p>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             </div>

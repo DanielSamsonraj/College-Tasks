@@ -28,7 +28,7 @@ def teacherRegistration(request):
 			try:
 				checkUser = User.objects.get(username = username)
 				messages.info(request, 'username already exists')
-				return redirect('studentRegistration')
+				return redirect('teacherRegistration')
 			except:
 				checkEmailDuplication = Teacher.objects.filter(email = email)
 				if checkEmailDuplication:
@@ -85,12 +85,15 @@ def post(request):
 
 @login_required(login_url='/login/')
 def viewPosts(request):
-	postObj = Post.objects.all().order_by('-date_posted', 'time_posted')
 	if request.user.is_superuser:
+		postObj = Post.objects.all().order_by('-date_posted', 'time_posted')
 		return render(request, 'files/Posts.html', {'PostData' : postObj})
 	else:
+		postObj = Post.objects.filter(branch = "GLOBAL").order_by('-date_posted', 'time_posted')
+		obj = Post.objects.all().order_by('-date_posted', 'time_posted')
 		userData = Student.objects.all().filter(user = request.user)
 		return render(request, 'files/Posts.html', {'PostData' : postObj,'userData' : userData})
+		
 
 @login_required(login_url='/login')
 def groupByBranch(request):
@@ -102,6 +105,7 @@ def groupByBranch(request):
 @login_required(login_url='/login')
 def groupByYear(request):
 	user = Student.objects.get(user = request.user)
+	print(user.year)
 	postObj = Post.objects.all().filter(branch = user.year).order_by('-date_posted', 'time_posted')
 	userData = Student.objects.all().filter(user = request.user)
 	return render(request, 'files/Posts.html', {'PostData' : postObj,'userData' : userData})

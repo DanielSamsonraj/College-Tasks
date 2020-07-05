@@ -58,6 +58,7 @@ def login(request):
 		password = request.POST['password']
 		response = auth.authenticate(username = username, password = password)
 		if response:
+			messages.success(request, "Logged in succesfully")
 			auth.login(request, response)
 			return redirect('viewPosts')
 		messages.info(request,"Invalid credentials please try again")
@@ -79,6 +80,7 @@ def post(request):
 			section = request.POST['sections']
 			postObj = Post(subject = subject, topic = topic, description = description, author = author, links = link, year = years, sections = section)
 			postObj.save()
+			messages.success(request, "Your post was uploaded succesfully.")
 			return redirect('viewPosts')
 		return render(request, 'files/uploads.html')
 	return redirect('viewPosts')
@@ -93,7 +95,6 @@ def viewPosts(request):
 		obj = Post.objects.all().order_by('-date_posted', 'time_posted')
 		userData = Student.objects.all().filter(user = request.user)
 		return render(request, 'files/Posts.html', {'PostData' : postObj,'userData' : userData})
-		
 
 @login_required(login_url='/login')
 def groupByBranch(request):
@@ -161,7 +162,7 @@ def studentRegistration(request):
 					return redirect('viewPosts')
 				else:
 					messages.info('There was an issue with login, Please try again')
-					return redirect('studentRegistration')
+					return redirect('login')
 
 		else:
 			messages.info(request, 'Password and Confirm Password should match')

@@ -106,7 +106,6 @@ def groupByBranch(request):
 @login_required(login_url='/login')
 def groupByYear(request):
 	user = Student.objects.get(user = request.user)
-	print(user.year)
 	postObj = Post.objects.all().filter(branch = user.year).order_by('-date_posted', 'time_posted')
 	userData = Student.objects.all().filter(user = request.user)
 	return render(request, 'files/Posts.html', {'PostData' : postObj,'userData' : userData})

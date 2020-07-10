@@ -79,7 +79,7 @@
             <!-- Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
             {% if request.user.is_superuser %}
-                <div class="sidebar-heading">{{ request.user }} &nbsp &nbsp <a href="post"><button class="button btn btn-success">+New Post</button></div></a>
+                <div class="sidebar-heading"><a class="sidebar-heading" href="/userProfile">{{ request.user }} <span class="sr-only">(current)</span></a> &nbsp &nbsp <a href="post"><button class="button btn btn-success">+New Post</button></div></a>
             {% else %}
                 <div class="sidebar-heading">{{ request.user }}</div>
             {% endif %}
@@ -95,37 +95,27 @@
                         <a href="section" class="list-group-item list-group-item-action bg-light">Section {{ data.section }}</a>
                     {% endfor %}
                 {% endif %}
+                <a class="list-group-item list-group-item-action bg-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="editProfile">Edit Profile</a>
+                    <a class="dropdown-item" href="accountDelete">Delete my account</a>
+                    <a class="dropdown-item" href="changePassword">Change Password</a>
+                </div>
+                <a class="list-group-item list-group-item-action bg-light" href="/logout">Logout</a>
             </div>
         </div>
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-dark bg-dark shadow">
+            <nav class="navbar navbar-dark bg-dark shadow" style="text-align: center;">
                 <button class="navbar-toggler" id="menu-toggle" aria-expanded="false"><span class="navbar-toggler-icon"></span></button>
-                <!-- <div class="container"> -->
-                    <a class="navbar-brand" href="#">COLLEGE TASKS</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#">COLLEGE TASKS</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="opacity: 0;">
                     <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/userProfile">{{ request.user }} <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="editProfile">Edit Profile</a>
-                                    <a class="dropdown-item" href="accountDelete">Delete my account</a>
-                                    <a class="dropdown-item" href="changePassword">Change Password</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">Logout</a>
-                            </li>
-                        </ul>
+                        
                     </div>
-                <!-- </sdiv> -->
             </nav>
             {% if messages %}
                 <div class="alert alert-success alert-dismissible fade show" style="max-width: 500px; margin:auto" role="alert">
